@@ -1,0 +1,11 @@
+{
+  "projectName": "shep",
+  "languages": [
+    {
+      "id": "shep",
+      "grammar": "src/shep.langium",
+      "fileExtensions": [".shep"]
+    }
+  ],
+  "out": "generated"
+}

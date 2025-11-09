@@ -1,0 +1,32 @@
+{
+  "name": "MyTodos",
+  "datas": [
+    {
+      "name": "Todo",
+      "fields": [
+        { "name": "title", "type": "text" },
+        { "name": "done", "type": "yes/no" }
+      ],
+      "rules": ["user can update own items"]
+    }
+  ],
+  "views": [
+    {
+      "name": "Dashboard",
+      "list": "Todo",
+      "buttons": [
+        { "label": "Add Task", "action": "CreateTodo" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "CreateTodo",
+      "params": [ { "name": "title" } ],
+      "ops": [
+        { "kind": "add", "data": "Todo", "fields": { "title": "title", "done": "false" } },
+        { "kind": "show", "view": "Dashboard" }
+      ]
+    }
+  ]
+}
