@@ -1,0 +1,31 @@
+{
+  "name": "@sheplang/language",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "generate": "langium generate",
+    "build": "pnpm run generate && tsc -b",
+    "test": "vitest --run",
+    "dev:test": "vitest",
+    "build:test": "pnpm run build && vitest --run test/dist-smoke.test.ts",
+    "clean": "rimraf dist generated",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "langium": "^3.0.0",
+    "@sheplang/compiler": "workspace:*"
+  },
+  "devDependencies": {
+    "langium-cli": "^3.0.0",
+    "typescript": "^5.6.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.10.0",
+    "vitest": "^1.6.0",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "rimraf": "^5.0.5"
+  }
+}
