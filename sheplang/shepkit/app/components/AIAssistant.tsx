@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useShepKitStore } from '@/lib/store'
+import { generateCode, explainCode, debugCode } from '@/lib/edge-functions'
 import { 
   Bot, 
   Send, 
@@ -26,46 +27,80 @@ export function AIAssistant() {
   const [loading, setLoading] = useState(false)
   const [selectedAction, setSelectedAction] = useState<AIAction>('explain')
 
-  const handleSend = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     if (!input.trim() || loading) return
-
+    
     const userMessage: Message = {
       role: 'user',
       content: input,
       timestamp: new Date()
     }
-
+    
     setMessages(prev => [...prev, userMessage])
     setInput('')
     setLoading(true)
 
     try {
-      const response = await fetch(`/api/ai/${selectedAction}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code: activeFile?.content || '',
-          transpiled: transpiledCode,
-          error: transpileError,
-          query: input
-        })
-      })
-
-      const data = await response.json()
-
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.response || 'Sorry, I encountered an error.',
-        timestamp: new Date()
+      let result: any;
+      const code = activeFile?.content || '';
+      
+      // Call the appropriate edge function based on selected action
+      if (selectedAction === 'generate') {
+        result = await generateCode(input, code);
+        
+        if ('error' in result) {
+          throw new Error(result.error);
+        }
+        
+        const assistantMessage: Message = {
+          role: 'assistant',
+          content: result.code || 'No code was generated.',
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, assistantMessage]);
+        
+      } else if (selectedAction === 'explain') {
+        result = await explainCode(code, input);
+        
+        if ('error' in result) {
+          throw new Error(result.error);
+        }
+        
+        const assistantMessage: Message = {
+          role: 'assistant',
+          content: result.explanation || 'No explanation was generated.',
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, assistantMessage]);
+        
+      } else if (selectedAction === 'debug') {
+        result = await debugCode(code, transpileError, transpiledCode, input);
+        
+        if ('error' in result) {
+          throw new Error(result.error);
+        }
+        
+        const assistantMessage: Message = {
+          role: 'assistant',
+          content: result.debugInfo || 'No debugging information was generated.',
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, assistantMessage]);
       }
-
-      setMessages(prev => [...prev, assistantMessage])
+      
     } catch (error) {
+      console.error('AI request failed:', error)
+      
       const errorMessage: Message = {
         role: 'assistant',
-        content: 'Failed to connect to AI service. Please check your API key.',
+        content: 'Sorry, I encountered an error processing your request: ' + (error instanceof Error ? error.message : 'Unknown error'),
         timestamp: new Date()
       }
+      
       setMessages(prev => [...prev, errorMessage])
     } finally {
       setLoading(false)

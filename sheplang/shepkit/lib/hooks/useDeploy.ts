@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useShepKitStore } from '@/lib/store'
+import { deployToVercel } from '@/lib/edge-functions'
 
 export interface DeploymentOptions {
   vercelToken?: string
@@ -48,23 +49,27 @@ export function useDeploy() {
     })
 
     try {
-      const response = await fetch('/api/deploy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          projectName: activeProject.name.toLowerCase().replace(/\s+/g, '-'),
-          files: activeProject.files.map(f => ({
-            name: f.name,
-            content: f.content
-          })),
-          vercelToken: options.vercelToken,
-          teamId: options.teamId
-        })
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
+      // Add log messages
+      setStatus(prev => ({
+        ...prev,
+        logs: [...prev.logs, 'Preparing files for deployment...']
+      }))
+      
+      // Call the edge function directly
+      const projectName = activeProject.name.toLowerCase().replace(/\s+/g, '-')
+      const files = activeProject.files.map(f => ({
+        name: f.name,
+        content: f.content
+      }))
+      
+      setStatus(prev => ({
+        ...prev,
+        logs: [...prev.logs, 'Calling Vercel deployment service...']
+      }))
+      
+      const data = await deployToVercel(projectName, files)
+      
+      if ('error' in data) {
         throw new Error(data.error || 'Deployment failed')
       }
 
