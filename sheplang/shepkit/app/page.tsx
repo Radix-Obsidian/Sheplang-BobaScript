@@ -7,9 +7,11 @@ import { AIAssistant } from './components/AIAssistant'
 import { DeployButton } from './components/DeployButton'
 import { useShepKitStore } from '@/lib/store'
 import { Split, Code2, Play, Bot, Settings } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function ShepKitIDE() {
   const { activeFile, showAI, toggleAI } = useShepKitStore()
+  const router = useRouter()
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background">
@@ -49,7 +51,10 @@ export default function ShepKitIDE() {
               <Bot className="inline-block h-4 w-4 mr-1.5" />
               AI Assistant
             </button>
-            <button className="rounded-md bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground hover:bg-secondary/80">
+            <button 
+              onClick={() => router.push('/settings')}
+              className="rounded-md bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
+            >
               <Settings className="inline-block h-4 w-4 mr-1.5" />
               Settings
             </button>

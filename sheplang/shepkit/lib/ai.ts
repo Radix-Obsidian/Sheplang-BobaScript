@@ -47,7 +47,7 @@ ${request.query ? `\nSpecific question: ${request.query}` : ''}
 Provide a clear, concise explanation.`
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4-turbo-preview',
+    model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
@@ -87,7 +87,7 @@ ${request.code ? `\nExisting code context:\n\`\`\`sheplang\n${request.code}\n\`\
 Return only the ShepLang code.`
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4-turbo-preview',
+    model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
@@ -130,7 +130,7 @@ ${request.query ? `\nAdditional context: ${request.query}` : ''}
 Help me fix this issue.`
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4-turbo-preview',
+    model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }

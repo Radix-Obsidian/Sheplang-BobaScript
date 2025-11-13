@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "./src",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",
@@ -11,8 +11,8 @@
     "resolveJsonModule": true,
     "declaration": true
   },
-  "include": ["src", "test"],
+  "include": ["src"],
   "references": [
-    { "path": "../language" }
+    { "path": "../language/tsconfig.build.json" }
   ]
 }
