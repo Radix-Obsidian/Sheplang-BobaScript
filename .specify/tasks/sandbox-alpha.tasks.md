@@ -18,9 +18,10 @@
 
 ## Task 1: Create Next.js Sandbox App
 
-**Status:** ⏭️ READY  
+**Status:** ✅ COMPLETE  
 **Credits:** 1.0  
-**Time:** 10 minutes
+**Time:** 10 minutes  
+**Completed:** 2025-01-13
 
 ### Commands:
 ```bash
@@ -45,15 +46,15 @@ packages:
 ```
 
 ### Validation:
-- [ ] Sandbox folder created
-- [ ] Next.js runs with `pnpm dev`
-- [ ] Workspace recognizes sandbox
+- [x] Sandbox folder created (already existed)
+- [x] Next.js runs with `pnpm dev`
+- [x] Workspace recognizes sandbox
 
 ---
 
 ## Task 2: Install All Dependencies
 
-**Status:** ⏳ BLOCKED by Task 1  
+**Status:** ⏭️ READY (Task 1 complete)  
 **Credits:** 0.5  
 **Time:** 5 minutes
 
