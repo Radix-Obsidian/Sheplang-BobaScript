@@ -23,7 +23,9 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./app/components/*"],
-      "@/lib/*": ["./lib/*"]
+      "@/lib/*": ["./lib/*"],
+      "@adapters/sheplang-to-boba": ["../../adapters/sheplang-to-boba/src"],
+      "@sheplang/language": ["../packages/language/src"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
