@@ -1,8 +1,9 @@
-# ShepKit Constitution
+# ShepLang Sandbox Constitution
 
-**Purpose:** Non-negotiable principles for ShepKit AI development  
-**Based On:** [scope.md](../../Project-scope/scope.md)  
-**Updated:** 2025-01-13
+**Purpose:** Non-negotiable principles for Sandbox Alpha & future development  
+**Based On:** [scope.md](../../Project-scope/scope.md), [ROADMAP.md](../../Project-scope/ROADMAP.md)  
+**Updated:** 2025-01-13  
+**Current Phase:** Phase 1 - Sandbox Alpha
 
 ---
 
@@ -10,7 +11,7 @@
 
 ### 1. ShepLang-First Development
 
-**Principle:** ShepKit exists to teach and build with ShepLang, not other languages.
+**Principle:** Sandbox exists to teach and build with ShepLang, not other languages.
 
 **Rules:**
 - ✅ ONLY generate ShepLang code
@@ -274,6 +275,33 @@ Before merging any AI feature:
 - [ ] Accessibility verified
 - [ ] Constitution compliance checked
 - [ ] Documentation updated
+
+---
+
+## Sandbox Alpha Specific Rules
+
+### Phase 1 Constraints
+
+**What Sandbox Alpha MUST Have:**
+- ✅ Monaco editor with ShepLang syntax
+- ✅ Live preview using existing transpiler
+- ✅ AI Assistant with 3 modes (explain/generate/fix)
+- ✅ 5 hardcoded examples
+- ✅ localStorage for projects
+- ✅ Share via URL encoding
+
+**What Sandbox Alpha MUST NOT Have:**
+- ❌ User authentication
+- ❌ Backend/database
+- ❌ Deploy functionality
+- ❌ File system
+- ❌ Complex project management
+- ❌ Visual drag-and-drop
+
+**Location:**
+- Lives in `/sheplang/sandbox/`
+- Separate from ShepKit (Phase 2)
+- Does not modify core packages
 
 ---
 
