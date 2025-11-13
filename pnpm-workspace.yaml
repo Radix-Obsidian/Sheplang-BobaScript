@@ -1,0 +1,11 @@
+packages:
+  - sheplang/packages/*
+  - adapters/*
+  - sheplang/shepkit
+  - sheplang/examples
+  - sheplang/playground
+  - sheplang/e2e
+
+ignoredBuiltDependencies:
+  - esbuild
+  - unrs-resolver

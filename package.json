@@ -4,7 +4,15 @@
   "type": "module",
   "scripts": {
     "verify": "powershell -ExecutionPolicy Bypass -File ./scripts/verify.ps1",
-    "build": "pnpm -w -r build",
-    "test": "pnpm -w -r test --run"
+    "verify:ci": "pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run test",
+    "build": "pnpm -r --filter '!@sheplang/e2e' run build",
+    "test": "pnpm -w -r test --run",
+    "test:unit": "pnpm -w -r run test:unit",
+    "test:integration": "pnpm -w -r run test:integration",
+    "test:e2e": "pnpm -w -r run test:e2e",
+    "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e",
+    "typecheck": "pnpm -w -r run typecheck",
+    "lint": "pnpm -w -r run lint",
+    "prepare:production": "node scripts/prepare-production.js"
   }
 }
