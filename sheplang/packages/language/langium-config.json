@@ -7,5 +7,5 @@
       "fileExtensions": [".shep"]
     }
   ],
-  "out": "generated"
+  "out": "src/generated"
 }

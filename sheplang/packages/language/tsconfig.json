@@ -11,10 +11,10 @@
     "noEmit": false,
     "composite": true,
     "outDir": "./lib",
-    "rootDir": ".",
+    "rootDir": "./src",
     "declaration": true,
     "declarationMap": false
   },
-  "include": ["src", "generated"],
+  "include": ["src/**/*"],
   "exclude": ["dist", "lib", "node_modules", "test"]
 }

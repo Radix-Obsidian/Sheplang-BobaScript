@@ -17,7 +17,7 @@
     "generate": "langium generate",
     "build": "npm run generate && tsc -p tsconfig.build.json",
     "test": "vitest run --dir .",
-    "clean": "rimraf dist generated"
+    "clean": "rimraf dist lib src/generated"
   },
   "dependencies": {
     "langium": "^3.0.0"
