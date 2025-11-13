@@ -1,0 +1,7 @@
+component Counter {
+  state count = 0
+}
+
+component Counter { // Duplicate name
+  state value = 0
+}

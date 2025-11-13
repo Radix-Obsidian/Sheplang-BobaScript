@@ -2,6 +2,7 @@
   "extends": "../../sheplang/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
+    "rootDir": "src",
     "noEmit": false,
     "composite": true,
     "moduleResolution": "NodeNext",

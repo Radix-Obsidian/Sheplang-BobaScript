@@ -1,23 +1,81 @@
 // Use the real parser from the language package (no mocks)
 import { parseShep } from "@sheplang/language";
+import type { Diagnostic, CompilationResult } from "@sheplang/language";
 
-export interface BobaOutput {
-  code: string;
-  canonicalAst: any;
+/**
+ * Result of transpiling ShepLang to BobaScript
+ */
+export interface BobaTranspileResult {
+  output: string | null;
+  diagnostics: Diagnostic[];
+  success: boolean;
+  canonicalAst?: any;
 }
 
 /**
  * Transpiles ShepLang source to BobaScript
+ * @param source ShepLang source code
+ * @returns Transpilation result with BobaScript code, diagnostics, and success flag
  */
-export async function transpileShepToBoba(source: string): Promise<BobaOutput> {
-  const result = await parseShep(source);
-  const canonicalAst = normalizeAst(result.appModel);
-  const bobaCode = generateBobaCode(canonicalAst);
-  
-  return {
-    code: bobaCode,
-    canonicalAst
-  };
+export async function transpileShepToBoba(source: string): Promise<BobaTranspileResult> {
+  try {
+    // Parse ShepLang source
+    const parseResult = await parseShep(source);
+    
+    // If there were parse errors, return them
+    if (!parseResult.success) {
+      return {
+        output: null,
+        diagnostics: parseResult.diagnostics,
+        success: false
+      };
+    }
+    
+    try {
+      // Generate canonical AST from app model
+      const canonicalAst = normalizeAst(parseResult.appModel);
+      
+      // Generate BobaScript from canonical AST
+      const bobaCode = generateBobaCode(canonicalAst);
+      
+      return {
+        output: bobaCode,
+        diagnostics: parseResult.diagnostics,
+        success: true,
+        canonicalAst
+      };
+    } catch (error: any) {
+      // Handle errors in AST normalization or code generation
+      const diagnostic: Diagnostic = {
+        message: `BobaScript generation error: ${error.message}`,
+        severity: 'error',
+        start: { line: 1, column: 1, offset: 0 },
+        code: 'BOBA_GENERATION_ERROR',
+        source: 'sheplang-to-boba'
+      };
+      
+      return {
+        output: null,
+        diagnostics: [...parseResult.diagnostics, diagnostic],
+        success: false
+      };
+    }
+  } catch (error: any) {
+    // Handle unexpected errors (parseShep should handle its own errors, but just in case)
+    const diagnostic: Diagnostic = {
+      message: `Unexpected error: ${error.message}`,
+      severity: 'error',
+      start: { line: 1, column: 1, offset: 0 },
+      code: 'UNEXPECTED_ERROR',
+      source: 'sheplang-to-boba'
+    };
+    
+    return {
+      output: null,
+      diagnostics: [diagnostic],
+      success: false
+    };
+  }
 }
 
 /**

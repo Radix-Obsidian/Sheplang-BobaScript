@@ -1,0 +1,3 @@
+component Broken { 
+  // Missing closing brace
+  state count = 1

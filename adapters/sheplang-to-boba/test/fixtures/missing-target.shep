@@ -1,0 +1,5 @@
+component Button {
+  "Click me"
+}
+
+// Missing route or component that uses Button
