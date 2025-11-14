@@ -5,6 +5,8 @@ import { ExamplesSidebar } from './ui/ExamplesSidebar'
 import { WelcomeCard } from './ui/WelcomeCard'
 import { ShepCodeViewer } from './editor/ShepCodeViewer'
 import { BobaRenderer } from './preview/BobaRenderer'
+import { ExplainPanel } from './ui/ExplainPanel'
+import { CollapsiblePanel } from './ui/CollapsiblePanel'
 import { useWorkspaceStore } from './workspace/useWorkspaceStore'
 import { useTranspile } from './hooks/useTranspile'
 import { SHEP_EXAMPLES } from './examples/exampleList'
@@ -57,8 +59,8 @@ function App() {
                 </div>
               </div>
 
-              {/* Live Preview - Right Half */}
-              <div className="flex-1 flex flex-col">
+              {/* Live Preview & Explain - Right Half */}
+              <div className="flex-1 flex flex-col overflow-hidden">
                 {transpile.isTranspiling ? (
                   <div className="flex items-center justify-center h-full bg-gray-50">
                     <div className="text-center">
@@ -79,7 +81,28 @@ function App() {
                     </div>
                   </div>
                 ) : transpile.bobaApp ? (
-                  <BobaRenderer app={transpile.bobaApp} />
+                  <div className="flex flex-col h-full overflow-hidden">
+                    {/* Collapsible Live Preview */}
+                    <div className="overflow-auto">
+                      <CollapsiblePanel 
+                        title="Live Preview" 
+                        icon="👁️" 
+                        defaultOpen={true}
+                      >
+                        <div className="h-[400px] overflow-auto">
+                          <BobaRenderer app={transpile.bobaApp} />
+                        </div>
+                      </CollapsiblePanel>
+                    </div>
+
+                    {/* Explain Panel */}
+                    <div className="overflow-auto">
+                      <ExplainPanel 
+                        explainData={transpile.explainData} 
+                        defaultOpen={true}
+                      />
+                    </div>
+                  </div>
                 ) : (
                   <div className="flex items-center justify-center h-full bg-gray-50">
                     <p className="text-gray-500">No preview available</p>

@@ -10,6 +10,7 @@
 import { useEffect } from 'react';
 import { useWorkspaceStore } from '../workspace/useWorkspaceStore';
 import { transpileShepLang } from '../services/transpilerService';
+import { explainShepLangApp } from '../services/explainService';
 import { SHEP_EXAMPLES } from '../examples/exampleList';
 
 /**
@@ -58,7 +59,10 @@ export function useTranspile() {
           // Create a mock App object from canonical AST
           const bobaApp = createBobaAppFromAst(result.canonicalAst);
           
-          setTranspileResult(result.bobaCode, bobaApp);
+          // Generate explain data (Phase 3)
+          const explainData = explainShepLangApp(result.canonicalAst);
+          
+          setTranspileResult(result.bobaCode, bobaApp, explainData);
         } else {
           setTranspileError(result.error || 'Transpilation failed');
         }

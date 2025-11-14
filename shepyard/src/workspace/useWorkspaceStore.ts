@@ -5,14 +5,17 @@
  * Uses Zustand for lightweight React state management.
  * 
  * Phase 2: Added transpilation state tracking
+ * Phase 3: Added explain data
  */
 
 import { create } from 'zustand';
+import type { ExplainResult } from '../services/explainService';
 
 interface TranspileState {
   isTranspiling: boolean;
   bobaCode: string | null;
   bobaApp: any | null;
+  explainData: ExplainResult | null;
   error: string | null;
 }
 
@@ -21,7 +24,7 @@ interface WorkspaceState {
   transpile: TranspileState;
   setActiveExample: (id: string) => void;
   clearActiveExample: () => void;
-  setTranspileResult: (bobaCode: string, bobaApp: any) => void;
+  setTranspileResult: (bobaCode: string, bobaApp: any, explainData: ExplainResult) => void;
   setTranspileError: (error: string) => void;
   setTranspiling: (isTranspiling: boolean) => void;
   clearTranspile: () => void;
@@ -31,6 +34,7 @@ const initialTranspileState: TranspileState = {
   isTranspiling: false,
   bobaCode: null,
   bobaApp: null,
+  explainData: null,
   error: null,
 };
 
@@ -48,12 +52,13 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => ({
     transpile: initialTranspileState 
   }),
   
-  setTranspileResult: (bobaCode: string, bobaApp: any) => set((state) => ({
+  setTranspileResult: (bobaCode: string, bobaApp: any, explainData: ExplainResult) => set((state) => ({
     transpile: {
       ...state.transpile,
       isTranspiling: false,
       bobaCode,
       bobaApp,
+      explainData,
       error: null,
     }
   })),
