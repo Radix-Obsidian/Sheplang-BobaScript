@@ -162,7 +162,7 @@ class Parser {
    * Parse field: name: type [= default]
    */
   private parseField(): FieldDefinition | null {
-    const nameToken = this.consume(TokenType.IDENTIFIER, 'Expected field name');
+    const nameToken = this.consumeIdentifierOrKeyword('Expected field name');
     const fieldName = nameToken.value;
     
     this.consume(TokenType.COLON, 'Expected ":"');
@@ -711,6 +711,44 @@ class Parser {
    */
   private consume(type: TokenType, message: string): Token {
     if (this.check(type)) {
+      return this.advance();
+    }
+    
+    this.error(message);
+    return this.peek();
+  }
+  
+  /**
+   * Consume identifier or keyword (for contexts where keywords are allowed as identifiers)
+   * This allows field names like "id", "string", etc. which are lexed as keywords
+   */
+  private consumeIdentifierOrKeyword(message: string): Token {
+    const token = this.peek();
+    
+    // Check if current token is IDENTIFIER or any keyword that can be used as identifier
+    if (token.type === TokenType.IDENTIFIER ||
+        token.type === TokenType.ID ||
+        token.type === TokenType.STRING ||
+        token.type === TokenType.INT ||
+        token.type === TokenType.FLOAT ||
+        token.type === TokenType.BOOL ||
+        token.type === TokenType.DATETIME ||
+        token.type === TokenType.JSON ||
+        token.type === TokenType.MODEL ||
+        token.type === TokenType.ENDPOINT ||
+        token.type === TokenType.JOB ||
+        token.type === TokenType.LET ||
+        token.type === TokenType.RETURN ||
+        token.type === TokenType.FOR ||
+        token.type === TokenType.IF ||
+        token.type === TokenType.ELSE ||
+        token.type === TokenType.IN ||
+        token.type === TokenType.EVERY ||
+        token.type === TokenType.TRUE ||
+        token.type === TokenType.FALSE ||
+        token.type === TokenType.GET ||
+        token.type === TokenType.POST ||
+        token.type === TokenType.APP) {
       return this.advance();
     }
     
